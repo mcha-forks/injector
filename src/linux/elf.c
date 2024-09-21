@@ -412,7 +412,10 @@ static inline int is_on_overlay_fs(int fd)
 #ifndef OVERLAYFS_SUPER_MAGIC
 #define OVERLAYFS_SUPER_MAGIC 0x794c7630
 #endif
-    return (sbuf.f_type == OVERLAYFS_SUPER_MAGIC) ? 1 : 0;
+#ifndef BTRFS_SUPER_MAGIC
+#define BTRFS_SUPER_MAGIC 0x9123683E
+#endif
+    return (sbuf.f_type == OVERLAYFS_SUPER_MAGIC || sbuf.f_type == BTRFS_SUPER_MAGIC) ? 1 : 0;
 }
 
 static FILE *fopen_with_ino(const char *path, dev_t dev, ino_t ino)

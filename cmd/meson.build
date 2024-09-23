@@ -1,9 +1,10 @@
+has_getopt = cc.has_function('getopt') and cc.check_header('getopt.h')
+
 executable(
   'injector',
-  files('main.c'),
-  ya_getopt_hdrs,
-  c_args: ['-D_GNU_SOURCE'],
+  files('main.c') + (has_getopt ? ya_getopt_hdrs : []),
+  c_args: ['-D_GNU_SOURCE'] + (has_getopt ? ['-DNO_YA_GETOPT'] : []),
   dependencies: [injector_dep],
-  link_with: cc.has_function('getopt') ? [] : [ya_getopt_lib],
+  link_with: has_getopt ? [] : [ya_getopt_lib],
   install: true,
 )

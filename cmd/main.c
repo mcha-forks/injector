@@ -74,7 +74,11 @@ static pid_t find_process(const char *name)
 #ifdef _WIN32
 #include <windows.h>
 #include <tlhelp32.h>
+#ifndef NO_YA_GETOPT
 #include "../util/ya_getopt.h"
+#else
+#include <getopt.h>
+#endif
 
 #define INVALID_PID 0
 static DWORD find_process(const char *name)
@@ -106,7 +110,11 @@ static DWORD find_process(const char *name)
 #ifdef __APPLE__
 #define INVALID_PID -1
 #import <sys/sysctl.h>
+#ifndef NO_YA_GETOPT
 #include "../util/ya_getopt.h"
+#else
+#include <getopt.h>
+#endif
 static pid_t find_process(const char *name)
 {
 	pid_t pid = -1;
